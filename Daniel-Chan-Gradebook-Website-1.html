@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <title>Gradebook</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+    }
+
+    #title1 {
+      text-align: center;
+      font-size: 50px;
+      color: royalblue;
+      background: #9DD1DC;
+      padding: 30px;
+      position: relative;
+    }
+
+    #buttonSpace {
+      height: 60px;
+      width: 60px;
+      background: #3CB371;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      border-radius: 5px;
+    }
+
+    #bar1,
+    #bar2,
+    #bar3 {
+      background: #FF6347;
+      width: 30px;
+      height: 5px;
+      transition: 0.5s;
+    }
+
+    #bar2 {
+      margin: 5px 0;
+    }
+
+    #menu {
+      width: 200px;
+      height: 300px;
+      background-image: linear-gradient(to left, white, #3CB371);
+      position: absolute;
+      top: 110px;
+      left: 20px;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      visibility: hidden;
+      z-index: 1;
+    }
+
+    #menu a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    
+
+    .header {
+      max-width: 800px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow-x: auto;
+    }
+    #linkedin a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .gradebox {
+      width: 40px;
+      height: 25px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    #btn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background: #3CB371;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+  <script>
+   function transformations() {
+      var bar1 = document.getElementById("bar1");
+      var bar2 = document.getElementById("bar2");
+      var bar3 = document.getElementById("bar3");
+
+      bar1.style.transform = "rotate(180deg) translate(3px, -6px)";
+      bar2.style.transform = "rotate(90deg) translate(5px, 14px)";
+      bar3.style.transform = "rotate(180deg) translate(3px, 1px)";
+    }
+
+    function resetTransformations() {
+      var bar1 = document.getElementById("bar1");
+      var bar2 = document.getElementById("bar2");
+      var bar3 = document.getElementById("bar3");
+
+      bar1.style.transform = "";
+      bar2.style.opacity = "1";
+      bar3.style.transform = "";
+    }
+
+    function toggleMenu() {
+      var menu = document.getElementById("menu");
+      menu.style.visibility = menu.style.visibility === "hidden" ? "visible" : "hidden";
+    }
+
+    function calculateAverage(row) {
+      var grades = [];
+      for (var i = 2; i < row.cells.length; i++) {
+        grades.push(Number(row.cells[i].getElementsByTagName('input')[0].value) || 0);
+      }
+      var average = grades.reduce((acc, val) => acc + val, 0) / grades.length;
+      row.cells[1].textContent = average.toFixed(2);
+    }
+
+    function calculateAllAverages() {
+      var table = document.getElementById("gradeTable");
+      for (var i = 1; i < table.rows.length; i++) {
+        calculateAverage(table.rows[i]);
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div id="title1">
+    <div id="buttonSpace" onclick="transformations(); toggleMenu();">
+      <div id="bar1"></div>
+      <div id="bar2"></div>
+      <div id="bar3"></div>
+    </div>
+    Daniel Chan's Teacher Portal
+  </div>
+
+  <div id="menu">
+    <a href="https://google.com">Home</a>
+    <div id="linkedin">
+    	<a href="https://www.linkedin.com/in/daniel-chan-/">My Linkedin</a>
+    </div>
+   <div id="github">
+	<a href="https://www.github.com/Daniel4Chn">My Github</a>
+   </div>
+  </div>
+ 
+  <div class="header">
+    <table id="gradeTable">
+      <tr>
+        <th class="gradeheader">Students</th>
+        <th>Average</th>
+        <th>Grade 1</th>
+        <th>Grade 2</th>
+        <th>Grade 3</th>
+        <th>Grade 4</th>
+        <th>Grade 5</th>
+        <th>Grade 6</th>
+        <th>Grade 7</th>
+        <th>Grade 8</th>
+        <th>Grade 9</th>
+        <th>Grade 10</th>
+      </tr>
+    
+      <tr>
+        <td>Student 1</td>
+        <td></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+      </tr>
+    
+      <tr>
+        <td>Student 2</td>
+        <td></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+      </tr>
+    
+      <tr>
+        <td>Student 3</td>
+        <td></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+      </tr>
+   
+      <tr>
+        <td>Student 4</td>
+        <td></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+      </tr>
+     
+      <tr>
+        <td>Student 5</td>
+        <td></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+      </tr>
+     
+      <tr>
+        <td>Student 6</td>
+        <td></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+      </tr>
+     
+      <tr>
+        <td>Student 7</td>
+        <td></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+      </tr>
+      
+      <tr>
+        <td>Student 8</td>
+        <td></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+      </tr>
+      
+      <tr>
+        <td>Student 9</td>
+        <td></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+      </tr>
+     
+      <tr>
+        <td>Student 10</td>
+        <td></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+        <td class="gradbox"><input type="input" class="gradebox"></td>
+      </tr>
+    </table>
+    <button id="btn" onclick="calculateAllAverages()">Calculate</button>
+  </div>
+</body>
+
+</html>
+[
